@@ -5,10 +5,12 @@
 #include <fstream>
 #include <ios>
 #include <vector>
+#include <unordered_map>
 
 #include <time.h>
 
 using namespace std;
+const int MaxSize = 560;
 
 typedef double* pDouble;
 /*
@@ -242,38 +244,100 @@ void ArrayLocal()
 
 }
 
+int find_min_element_index(vector<double>& vec, int N, int T1, int T2)
+{
+    int min_index = -1;
+    int min_value = INT_MAX;
+
+    bool found_t2 = false;
+
+    for (int i = 0; i < N; i++) {
+        if (vec[i] > T1 && (found_t2 == true || vec[i] >= T2)) {
+            if (vec[i] < min_value && found_t2 == true) {
+                min_index = i;
+                min_value = vec[i];
+            }
+
+            if (!found_t2) {
+                found_t2 = true;
+            }
+        }
+    }
+
+    return min_index;
+}
 
 int main()
 { 
-    
-    
-    
-    const int MAX_SIZE = 560;
-    std::cout << "Hello World!\n";
-    ShowMainMenu();
-    /*
-    double A[MAX_SIZE], B[MAX_SIZE],C[MAX_SIZE];
-    int n,m;
-    n = RndInputArray(MAX_SIZE, A);
-    WriteArrayTextFile(n, A, "1.txt");
-    m = ReadArrayTextFile(MAX_SIZE, B, "1.txt");
-    cout << " \n m= " << m << endl;
-    for (int i = 0; i < m; i++)
-        cout << B[i] << "   ";
-    WriteArrayBinFile(n, A, "1.bin");
-    m = ReadArrayBinFile(MAX_SIZE, C, "1.bin");
-    cout << " \n m= " << m << endl;
-    for (int i = 0; i < m; i++)
-        cout << C[i] << "   ";
-    cout << "\n  Vector \n";
-    vector<double> vA;
-    ConsoleInputVector(MAX_SIZE, vA);
-    for (auto v : vA) {
-        cout << v << "   ";
+    int N;
+    cout << "Enter the n number";
+    cin >> N;
+    int A[MaxSize];
+    for (int i = 0; i < N; i++) {
+        cout << "A[" << i << "]";
+        cin >> A[i];
     }
-*/
-    TaskV();
-    return 1;
+    int B[MaxSize];
+    for (int i = 0; i < N; i++) {
+        cout << "B[" << i << "]";
+        cin >> B[i];
+    }
+    for (int i = 0; i < N; i++) {
+        if (A[i] > 0) {
+            A[i] = B[i];
+        }
+    }
+
+    for (int i = 0; i < N; i++) {
+        cout << A[i] << " ";
+    }
+    
+    vector<double> vA;
+    int T1, T2;
+    cout << "Enter T1:";
+    cin >> T1;
+    cout << "Enter T2:";
+    cin >> T2;
+    int size;
+    cout << "Enter numebr of elements in massive:";
+    cin >> size;
+    double d;
+    for (int i = 0; i < size; i++) {
+        cout << " Array[" << i << "] ";
+        cin >> d;
+        vA.push_back(d);
+    };
+
+    int min_index = find_min_element_index(vA, size, T1, T2);
+
+    if (min_index == -1) {
+        std::cout << "No matching element found." << std::endl;
+    }
+    else {
+        std::cout << "The index of the first minimal element is: " << min_index << std::endl;
+    }
+    
+    cout << "Enter the n number";
+    cin >> N;
+    for (int i = 0; i < N; i++) {
+        cout << "A[" << i << "]";
+        cin >> A[i];
+    }
+
+    unordered_map<int, int> count;
+    for (int i = 0; i < N; i++) {
+        count[A[i]]++;
+    }
+
+    int max_unique = -1;
+    for (int i = 0; i < N; i++) {
+        if (count[A[i]] == 1 && A[i] > max_unique) {
+            max_unique = A[i];
+        }
+    }
+
+    cout << max_unique << endl;
+    return 0;
 
 }
 
