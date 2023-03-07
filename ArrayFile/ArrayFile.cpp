@@ -153,13 +153,6 @@ int ReadArrayBinFile(int n, double* arr, const char* fileName)
     return size;
 }
 
-void ShowMainMenu()
-{
-    cout << "    Main Menu  \n";
-    cout << "    1.  Task 1  \n";
-    cout << "    2.  Task 2  \n";
-    cout << "    3.  Task 3  \n";
-  }
 
 void MenuTask()
 {
@@ -267,9 +260,107 @@ int find_min_element_index(vector<double>& vec, int N, int T1, int T2)
     return min_index;
 }
 
+void showMainMenu() {
+    cout << "    Main Menu  \n";
+    cout << "    1.  Task 1  \n";
+    cout << "    2.  Task 2  \n";
+    cout << "    3.  Task 3  \n";
+}
+
+void mainMenu() {
+    bool isSelected = false;
+    while (!isSelected) {
+        system("cls");
+        showMainMenu();
+        int ch = GetInput();
+        switch (ch) {
+        case 1:
+            isSelected = true;
+            cout << "Enter the n number";
+            cin >> N;
+            for (int i = 0; i < N; i++) {
+                cout << "A[" << i << "]";
+                cin >> A[i];
+            }
+
+            unordered_map<int, int> count;
+            for (int i = 0; i < N; i++) {
+                count[A[i]]++;
+            }
+
+            int max_unique = -1;
+            for (int i = 0; i < N; i++) {
+                if (count[A[i]] == 1 && A[i] > max_unique) {
+                    max_unique = A[i];
+                }
+            }
+
+            cout << max_unique << endl;
+            break;
+        case 2:
+            isSelected = true;
+            vector<double> vA;
+            int T1, T2;
+            cout << "Enter T1:";
+            cin >> T1;
+            cout << "Enter T2:";
+            cin >> T2;
+            int size;
+            cout << "Enter numebr of elements in massive:";
+            cin >> size;
+            double d;
+            for (int i = 0; i < size; i++) {
+                cout << " Array[" << i << "] ";
+                cin >> d;
+                vA.push_back(d);
+            };
+
+            int min_index = find_min_element_index(vA, size, T1, T2);
+
+            if (min_index == -1) {
+                std::cout << "No matching element found." << std::endl;
+            }
+            else {
+                std::cout << "The index of the first minimal element is: " << min_index << std::endl;
+            }
+            break;
+        case 3:
+            isSelected = true;
+            int N;
+            cout << "Enter the n number";
+            cin >> N;
+            int A[MaxSize];
+            for (int i = 0; i < N; i++) {
+                cout << "A[" << i << "]";
+                cin >> A[i];
+            }
+            int B[MaxSize];
+            for (int i = 0; i < N; i++) {
+                cout << "B[" << i << "]";
+                cin >> B[i];
+            }
+            for (int i = 0; i < N; i++) {
+                if (A[i] > 0) {
+                    A[i] = B[i];
+                }
+            }
+
+            for (int i = 0; i < N; i++) {
+                cout << A[i] << " ";
+            }
+            taskNumber = 3;
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+
 int main()
-{ 
-    int N;
+{
+    mainMenu();
+    /*int N;
     cout << "Enter the n number";
     cin >> N;
     int A[MaxSize];
@@ -336,7 +427,7 @@ int main()
         }
     }
 
-    cout << max_unique << endl;
+    cout << max_unique << endl;*/
     return 0;
 
 }
